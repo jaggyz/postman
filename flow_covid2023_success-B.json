@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "d8bb60d3-d7c7-49b0-9bc5-c5e4645d7881",
+		"name": "flow_covid2023_success",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26003871"
+	},
+	"item": [
+		{
+			"name": "Get ปี",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"    pm.test(\"ตรวจสอบปีว่าเป็น 2023 ถูกต้อง\", function () {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.expect(2023).to.eql(jsonData[0].year);\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"ตรวจสอบจังหวัดทั้งหมด\", function () {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.expect(79).to.eql(jsonData.length);\r",
+							"    });\r",
+							"\r",
+							"    pm.test(\"ตรวจสอบจังหวัด ศรีสะเกษ\", function () {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.expect('ศรีสะเกษ').to.eql(jsonData[13].province);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces",
+					"protocol": "https",
+					"host": [
+						"covid19",
+						"ddc",
+						"moph",
+						"go",
+						"th"
+					],
+					"path": [
+						"api",
+						"Cases",
+						"today-cases-by-provinces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get จังหวัด",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"\r",
+							"    pm.test(\"ตรวจสอบจังหวัดทั้งหมด\", function () {\r",
+							"        var jsonData = pm.response.json();\r",
+							"        pm.expect(79).to.eql(jsonData.length);\r",
+							"    \r",
+							"\r",
+							"    pm.collectionVariables.set(\"province_name\", jsonData[13].province);\r",
+							"    });\r",
+							"\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces",
+					"protocol": "https",
+					"host": [
+						"covid19",
+						"ddc",
+						"moph",
+						"go",
+						"th"
+					],
+					"path": [
+						"api",
+						"Cases",
+						"today-cases-by-provinces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get จังหวัด ศรีสะเกษ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"แสดง Status 200 จ้า\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"ค้นหาข้อมูล Covid จังหวัดศรีสะเกษ\", function () {\r",
+							"    var provincename =pm.collectionVariables.get(\"province_name\");\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(provincename);\r",
+							"    pm.expect(provincename).to.eql(jsonData[13].province);\r",
+							"    pm.expect(1).to.eql(jsonData[13].new_case);\r",
+							"    pm.expect(39).to.eql(jsonData[13].total_case);\r",
+							"    pm.expect(1).to.eql(jsonData[13].new_case_excludeabroad);\r",
+							"    pm.expect(39).to.eql(jsonData[13].total_case_excludeabroad);\r",
+							"    pm.expect(0).to.eql(jsonData[13].new_death);\r",
+							"    pm.expect(6).to.eql(jsonData[13].total_death);\r",
+							"    pm.expect('2023-03-13 07:34:37').to.eql(jsonData[13].update_date);\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces/",
+					"protocol": "https",
+					"host": [
+						"covid19",
+						"ddc",
+						"moph",
+						"go",
+						"th"
+					],
+					"path": [
+						"api",
+						"Cases",
+						"today-cases-by-provinces",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "province_name",
+			"value": ""
+		}
+	]
+}
