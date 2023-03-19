@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "d27d50d8-047e-4271-bf16-0df239c6de93",
+		"name": "flow_covid2023_success",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15162408"
+	},
+	"item": [
+		{
+			"name": "get_all_province = 79",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(79).to.eql(jsonData.length);",
+							"    ",
+							"    pm.collectionVariables.set(\"province_name\", jsonData[6].province);",
+							"});",
+							"",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces",
+					"protocol": "https",
+					"host": [
+						"covid19",
+						"ddc",
+						"moph",
+						"go",
+						"th"
+					],
+					"path": [
+						"api",
+						"Cases",
+						"today-cases-by-provinces"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_province_by_name = กรุงเทพมหานคร",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Your test name\", function () {",
+							"",
+							"    var provinceName = pm.collectionVariables.get(\"province_name\");",
+							"",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(provinceName).to.eql(jsonData[6].province);",
+							"    pm.expect(42).to.eql(jsonData[6].new_case);",
+							"    pm.expect(770).to.eql(jsonData[6].total_case);",
+							"    pm.expect(1).to.eql(jsonData[6].new_death);  ",
+							"    pm.expect(45).to.eql(jsonData[6].total_death);  ",
+							"    pm.expect('2023-03-13 07:34:37').to.eql(jsonData[6].update_date);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://covid19.ddc.moph.go.th/api/Cases/today-cases-by-provinces",
+					"protocol": "https",
+					"host": [
+						"covid19",
+						"ddc",
+						"moph",
+						"go",
+						"th"
+					],
+					"path": [
+						"api",
+						"Cases",
+						"today-cases-by-provinces"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "provinceName",
+			"value": ""
+		},
+		{
+			"key": "province_name",
+			"value": ""
+		},
+		{
+			"key": "province",
+			"value": ""
+		}
+	]
+}
