@@ -1,0 +1,361 @@
+{
+	"info": {
+		"_postman_id": "7d0e3cb5-f390-41fc-93a9-856bee3cf654",
+		"name": "view_spotify_new_tracks_success",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3717648"
+	},
+	"item": [
+		{
+			"name": "spotify_token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"get_my_token\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    //pm.expect(\"BQCeHtP6JSG6PoEi3Wu5wagBJqxoqCFmQxc1srZzSYkbLQwk5Jf_whd5SNlIzqtiIRcHL-MFOZFxkjw01B8ftFpkKEpynnqyFzQK-jB4AbK-WRAoL5f\").to.eql(jsonData.access_token);",
+							"    console.log(jsonData.access_token);",
+							"",
+							"    //set my_token",
+							"    pm.collectionVariables.set(\"my_token\", jsonData.access_token);",
+							"    ",
+							"    //console.log(my_token)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "user-read-private user-read-email playlist-read-private user-read-currently-playing",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "0b4e7e817c974febb8902fa1350a2755",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "91bc86c6d85643f9ba4489c9b286b99c",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://accounts.spotify.com/api/token",
+					"protocol": "https",
+					"host": [
+						"accounts",
+						"spotify",
+						"com"
+					],
+					"path": [
+						"api",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_new_release_5_tracks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"get new release\", function () {",
+							"//var myToken = ",
+							"    //get token",
+							"    pm.collectionVariables.get(\"my_token\");",
+							"",
+							"    //get new release by artist \"Eloise\"",
+							"    pm.test(\"Your test name\", function () {",
+							"        var jsonData = pm.response.json();",
+							"        //pm.expect(\"spotify:album:22UyygZceCIfoE0RhENgKx\").to.eql(jsonData.albums.items[4].uri);",
+							"        pm.expect(\"18R7VI3JvO7576xdNNA4ni\").to.eql(jsonData.albums.items[4].id);",
+							"        //pm.expect(\"single\").to.eql(jsonData.albums.items[9].album_type);",
+							"        //pm.expect(\"Eloise\").to.eql(jsonData.albums.items[4].artists[0].name);",
+							"",
+							"    console.log(jsonData.albums.items[4].id);",
+							"    //console.log(jsonData.albums.items[4].artists[0].name);",
+							"",
+							"});",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.spotify.com/v1/browse/new-releases?country=TH&limit=5",
+					"protocol": "https",
+					"host": [
+						"api",
+						"spotify",
+						"com"
+					],
+					"path": [
+						"v1",
+						"browse",
+						"new-releases"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "TH"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "new_track_number_5",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Get Track ID\", function () {",
+							"    pm.response.to.have.status(200);",
+							"",
+							"    //get token",
+							"    pm.collectionVariables.get(\"my_token\");",
+							"",
+							"    //get track_id",
+							"    newTrackId = pm.collectionVariables.get(\"new_track_id\");",
+							"    console.log(newTrackId);",
+							"",
+							"});",
+							"",
+							"    pm.test(\"Check Track ID and Artist Name\", function () {",
+							"        var jsonData = pm.response.json();",
+							"        //",
+							"        pm.expect(\"18R7VI3JvO7576xdNNA4ni\").to.eql(newTrackId);",
+							"        pm.expect(\"Eloise\").to.eql(jsonData.albums.items[4].artists[0].name)",
+							"",
+							"        console.log(\"Artist Name: \" + jsonData.albums.items[4].artists[0].name);",
+							"",
+							"    });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "scope",
+							"value": "user-read-private user-read-email playlist-read-private user-read-currently-playing",
+							"type": "string"
+						},
+						{
+							"key": "client_authentication",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						},
+						{
+							"key": "tokenName",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "clientSecret",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "clientId",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "accessTokenUrl",
+							"value": "",
+							"type": "string"
+						},
+						{
+							"key": "grant_type",
+							"value": "authorization_code",
+							"type": "string"
+						},
+						{
+							"key": "headerPrefix",
+							"value": "Bearer",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.spotify.com/v1/browse/new-releases?country=TH&limit=5",
+					"protocol": "https",
+					"host": [
+						"api",
+						"spotify",
+						"com"
+					],
+					"path": [
+						"v1",
+						"browse",
+						"new-releases"
+					],
+					"query": [
+						{
+							"key": "country",
+							"value": "TH"
+						},
+						{
+							"key": "limit",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "my_token",
+			"value": ""
+		},
+		{
+			"key": "new_track",
+			"value": ""
+		},
+		{
+			"key": "new_track_id",
+			"value": ""
+		}
+	]
+}
