@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "05451165-4351-475d-b6f6-ea48709321b2",
+		"name": "marvel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26436656"
+	},
+	"item": [
+		{
+			"name": "Get marvel movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 1800ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(1800);",
+							"});",
+							"",
+							"pm.test(\"Verify data value\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(40).to.eql(jsonData.data.length);",
+							"",
+							"",
+							"    pm.collectionVariables.set(\"movie_id\",jsonData.data[0].id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mcuapi.herokuapp.com/api/v1/movies",
+					"protocol": "https",
+					"host": [
+						"mcuapi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get movie by id = 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"})",
+							"",
+							"pm.test(\"Verify movie title\", function () {",
+							"    var movieId = pm.collectionVariables.get(\"movie_id\");",
+							"    console.log(movieId);",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(movieId).to.eql(jsonData.id);",
+							"    pm.expect('Iron Man').to.eql(jsonData.title);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mcuapi.herokuapp.com/api/v1/movies/{{movie_id}}",
+					"protocol": "https",
+					"host": [
+						"mcuapi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"movies",
+						"{{movie_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get marvel tv shows",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 2000ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(2000);",
+							"});",
+							"",
+							"pm.test(\"Verify data value\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(17).to.eql(jsonData.data.length);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://mcuapi.herokuapp.com/api/v1/tvshows",
+					"protocol": "https",
+					"host": [
+						"mcuapi",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"tvshows"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "movie_id",
+			"value": ""
+		}
+	]
+}
